@@ -1,18 +1,24 @@
 from FlashCard import Deck
 import DeckActions
+from flask import Flask, jsonify, request
 
 def main():
     cardList = 'hiragana'
     Deck1 = DeckActions.loadDeck(cardList)
-    numCards = "a"
-    while numCards.isnumeric() is False:
-        numCards = input(f"Enter the amount of cards from {cardList} Deck to practice with:")
-        if numCards.isnumeric() is False:
-            print("Please input a number.")
+    numCards = -1
+    
+    numCards = getInt(f"Enter the amount of cards from {cardList} Deck to practice with:")
+    selected = DeckActions.randomCardsCLI(Deck1, numCards)
 
-    DeckActions.randomCards(Deck1, numCards)
     # TODO: read https://realpython.com/python-main-function/
-
-
+10
+def getInt(prompt):
+    while True:
+        try:
+            value = int(input(prompt))
+            return value
+        except ValueError:
+            print("Please input a number.")
+            
 if __name__ == '__main__':
     main()

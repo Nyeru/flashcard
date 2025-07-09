@@ -7,13 +7,18 @@ def loadDeck(name: str):
     return loadedDeck
 
 def randomCards(deck: Deck, numCards: int ):
-    for i in range (int(numCards)):
-        [front,back] = deck.randSel()
-        print("Press Enter to reveal the back")
-        print(front, end='')
-        input("")
-        print(back)
+    selected = []
+    for _ in range(numCards):
+        front, back = deck.randSel()
+        selected.append({'front': front, 'back': back})
+    return selected
 
+def randomCardsCLI(deck: Deck, numCards: int):
+    for _ in range(numCards):
+        front, back = deck.randSel()
+        input(f"{front} — press enter to reveal")
+        print(f"{back}\n")
+    
 # if imported
 if __name__ == 'DeckActions':
     #print(f"{__name__} was imported")
