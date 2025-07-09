@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Flashcard Viewer</title>
+</head>
+<body>
+  <h1>Flashcards</h1>
+  <div id="flashcards"></div>
+
+  <script>
+    fetch('/cards?n=5')
+      .then(res => res.json())
+      .then(data => {
+        let html = "";
+        data.forEach((card, i) => {
+          html += `
+            <div style="margin-bottom:1em;">
+              <strong>Q${i+1}:</strong> ${card.front}
+              <button onclick="alert('${card.back}')">Show Answer</button>
+            </div>`;
+        });
+        document.getElementById('flashcards').innerHTML = html;
+      });
+  </script>
+</body>
+</html>
