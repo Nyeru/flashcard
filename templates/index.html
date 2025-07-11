@@ -1,26 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
   <title>Flashcard Viewer</title>
 </head>
 <body>
-  <h1>Flashcards</h1>
-  <div id="flashcards"></div>
-
-  <script>
-    fetch('/cards?n=5')
-      .then(res => res.json())
-      .then(data => {
-        let html = "";
-        data.forEach((card, i) => {
-          html += `
-            <div style="margin-bottom:1em;">
-              <strong>Q${i+1}:</strong> ${card.front}
-              <button onclick="alert('${card.back}')">Show Answer</button>
-            </div>`;
-        });
-        document.getElementById('flashcards').innerHTML = html;
-      });
-  </script>
+  <h1 class="center">Flashcards</h1>
+    <form class="center" method = "POST">
+    <label for="numCards"> How many Cards?</label>
+  <input type="number" id = "numCards" name = "cardCount" min="1" value = 5  max="50">
+  <button type="submit" onclick="save()">Start</button>
+  </form>
+    <script>
+    const getValue = localStorage.getItem("numCards");
+    if(getValue){
+      document.getElementById("numCards").value = getValue;
+    }
+    function save(){
+      const setValue = document.getElementById("numCards").value
+      localStorage.setItem("numCards", setValue);
+    }
+    </script>
+  <div id="flashcards">
+  <ol type="1">
+    {% for card in cards %}
+       
+    <li class = "center" style="margin-bottom:1em;">{{card.front}}
+    <button onclick="alert('{{card.back}}')">Show Answer</button>
+    </li>
+    {% endfor %}
+  </ol>
+</div>
 </body>
 </html>
