@@ -8,7 +8,7 @@
   <h1 class="center">Flashcards</h1>
   <label>
     <form class="center" method = "POST">
-        Current Deck = {{currDeck}} <br>
+        Current Deck = {{ currDeck.name}} <br>
         <!-- Uploading their own Deck, csv file seperated by comma-->
     </form>
   </label>
@@ -17,7 +17,7 @@
     -->
     <form class="center" method = "POST">
       How many Cards?
-      <input  required='required' type="number" id = "numCards" name = "cardCount" min="1" value = 5  max="{{ maxNumCards }}">
+      <input  required='required' type="number" id = "numCards" name = "cardCount" min="1" value = 5  max="{{ currDeck.numCards }}">
       <button type="submit" onclick="save()">Start</button>
     </form>
   </label>
