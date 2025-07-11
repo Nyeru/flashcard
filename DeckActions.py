@@ -1,4 +1,5 @@
 from FlashCard import Deck
+import random
 
 def loadDeck(name: str):
     loadedDeck = Deck()
@@ -7,11 +8,7 @@ def loadDeck(name: str):
     return loadedDeck
 
 def randomCards(deck: Deck, numCards: int ):
-    selected = []
-    for _ in range(numCards):
-        front, back = deck.randSel()
-        selected.append({'front': front, 'back': back})
-    return selected
+    return deck.randSel(numCards)
 
 def randomCardsCLI(deck: Deck, numCards: int):
     for _ in range(numCards):

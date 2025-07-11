@@ -12,8 +12,8 @@ def index():
         numCards = request.form.get("cardCount")
         print(numCards)
         cards = randomCards(deck, int(numCards))
-        return render_template('index.html', cards = cards)
-    return render_template("index.html")
+        return render_template('index.html', cards = cards, currDeck = deck.name, maxNumCards = deck.numCards)
+    return render_template("index.html",  currDeck = deck.name, maxNumCards = deck.numCards)
 
 
 if __name__ == '__main__':

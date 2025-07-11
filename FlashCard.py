@@ -16,6 +16,8 @@ class Deck:
     def __init__(self):
         # create a deck of flash cards from textfile
         self.cards= []
+        self.name = ""
+        self.numCards = 0
 
     def addCards(self,textfile):
         readfile = open(textfile, "r", encoding = 'utf-8')
@@ -24,15 +26,19 @@ class Deck:
             text = rawtext[0].split(',')
             text[1] = text[1].lstrip()
             self.cards.append(Card(text[0],text[1]))
+        self.name = textfile
+        self.numCards = len(self.cards)
     
     def clearDeck(self):
         self.cards = []
 
-    def randSel(self):
-        selection = random.choice(self.cards)
-        front = selection.front
-        back = selection.back
-        return [front,back]
+    # not used
+    def randSel(self, numCards):
+        selected = []
+        ranSample = random.sample(self.cards,numCards)
+        for card in ranSample:
+            selected.append({'front': card.front, 'back': card.back})
+        return selected
 
     def printFront(self):
         for card in self.cards:

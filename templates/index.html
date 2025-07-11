@@ -6,12 +6,22 @@
 </head>
 <body>
   <h1 class="center">Flashcards</h1>
+  <label>
     <form class="center" method = "POST">
-    <label for="numCards"> How many Cards?</label>
-  <input type="number" id = "numCards" name = "cardCount" min="1" value = 5  max="50">
-  <button type="submit" onclick="save()">Start</button>
-  </form>
-    <script>
+        Current Deck = {{currDeck}} <br>
+        <!-- Uploading their own Deck, csv file seperated by comma-->
+    </form>
+  </label>
+  <label> 
+    <!-- Current Issue, Local Storage greater than uploaded csv, Fix: Reset to default when uploading a new Flashcard List
+    -->
+    <form class="center" method = "POST">
+      How many Cards?
+      <input  required='required' type="number" id = "numCards" name = "cardCount" min="1" value = 5  max="{{ maxNumCards }}">
+      <button type="submit" onclick="save()">Start</button>
+    </form>
+  </label>
+  <script>
     const getValue = localStorage.getItem("numCards");
     if(getValue){
       document.getElementById("numCards").value = getValue;
@@ -20,16 +30,16 @@
       const setValue = document.getElementById("numCards").value
       localStorage.setItem("numCards", setValue);
     }
-    </script>
-  <div id="flashcards">
-  <ol type="1">
+  </script>
+  
+  <div id="flashcards" class="flashcard-container">
     {% for card in cards %}
-       
-    <li class = "center" style="margin-bottom:1em;">{{card.front}}
-    <button onclick="alert('{{card.back}}')">Show Answer</button>
-    </li>
+    <div class = "flashcard" id = {{card.front}}>   
+    <div class = "flashcard-front" style="margin-bottom:1em;">{{card.front}}</div>
+    <!-- On click make a function to change the button into the Answer or to "flip the card"-->
+    <button onclick="alert('{{card.back}}')">Flip</button>
+    </div>
     {% endfor %}
-  </ol>
 </div>
 </body>
 </html>
