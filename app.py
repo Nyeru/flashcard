@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, render_template
-from DeckActions import loadDeck, randomCards, rename
+from DeckActions import *
 from FlashCard import Deck
 import json
 import os, csv, sys
@@ -8,7 +8,7 @@ import os, csv, sys
 sys.stdout.reconfigure(encoding='utf-8')
 app = Flask(__name__)
 deck = Deck()
-deck = loadDeck(deck, "Hiragana")
+deck = loadDeck(deck, "Hiragana.csv", "Hiragana")
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
@@ -21,9 +21,8 @@ def index():
                 print("We have a FILE")
                 print(file.filename)
                 textfile = file.stream.fileno()
-                deck.clearDeck()
-                deck.addCards(textfile)
-                deck.rename(file.filename)
+                print(file.filename)
+                loadDeck(deck, textfile, file.filename)
         if "cardCount" in request.form:
             numCards = request.form.get("cardCount")
             print(numCards)

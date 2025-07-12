@@ -18,16 +18,9 @@ class Deck:
         self.name = ""
         self.numCards = 0
 
-    def addCards(self,textfile):
-        readfile = open(textfile, "r", encoding = 'utf-8')
-        for line in readfile:
-            rawtext = line.split("\n")
-            text = rawtext[0].split(',')
-            text[1] = text[1].lstrip()
-            self.cards.append(Card(text[0],text[1]))
-        self.name = textfile
-        self.numCards = len(self.cards)
-        readfile.close()
+    def addCard(self, front, back):
+        self.cards.append(Card(front, back))
+        self.numCards += 1
     
     def clearDeck(self):
         self.cards = []
