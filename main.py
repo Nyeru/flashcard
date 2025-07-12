@@ -3,7 +3,7 @@ import DeckActions
 from flask import Flask, jsonify, request
 
 def main():
-    cardList = 'hiragana'
+    cardList = 'hiragana.csv'
     Deck1 = DeckActions.loadDeck(cardList)
     numCards = -1
     

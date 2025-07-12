@@ -7,22 +7,28 @@
 <body>
   <h1 class="center">Flashcards</h1>
   <label>
-    <form class="center" method = "POST">
+    <div class="center">
         Current Deck = {{ currDeck.name}} <br>
-        <!-- Uploading their own Deck, csv file seperated by comma-->
-    </form>
+        <!-- Uploading their own Deck, csv file seperated by comma, clear local storage value and set to 1-->
+        <form method="POST" enctype="multipart/form-data">
+        <input type="file" id="myFile" name="file" accept=".csv">
+        <input type="submit">
+        </form>
+    </div>
   </label>
   <label> 
     <!-- Current Issue, Local Storage greater than uploaded csv, Fix: Reset to default when uploading a new Flashcard List
+         Submit buttons are seperate, cant transfer data... A possible soln would be to join both forms at the same time and check if theres an uploaded file.
     -->
     <form class="center" method = "POST">
       How many Cards?
-      <input  required='required' type="number" id = "numCards" name = "cardCount" min="1" value = 5  max="{{ currDeck.numCards }}">
+      <input  required='required' type="number" id = "numCards" name = "cardCount" min="1" value = 1  max="{{ currDeck.numCards }}">
       <button type="submit" onclick="save()">Start</button>
     </form>
   </label>
   <script>
     const getValue = localStorage.getItem("numCards");
+    console.log(getValue)
     if(getValue){
       document.getElementById("numCards").value = getValue;
     }

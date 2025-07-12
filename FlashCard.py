@@ -1,4 +1,3 @@
-import csv
 import random
 import sys
 sys.stdout.reconfigure(encoding='utf-8')
@@ -28,9 +27,15 @@ class Deck:
             self.cards.append(Card(text[0],text[1]))
         self.name = textfile
         self.numCards = len(self.cards)
+        readfile.close()
     
     def clearDeck(self):
         self.cards = []
+        self.numCards = 0
+        self.name = ""
+
+    def rename(self, name: str):
+        self.name = name
 
     # not used
     def randSel(self, numCards):
