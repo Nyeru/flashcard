@@ -1,51 +1,61 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
   <title>Flashcard Viewer</title>
 </head>
+
 <body>
   <h1 class="center">Flashcards</h1>
   <label>
     <div class="center">
-        Current Deck = {{ currDeck.name}} <br>
-        <!-- Uploading their own Deck, csv file seperated by comma, clear local storage value and set to 1-->
-        <form method="POST" enctype="multipart/form-data">
+      Current Deck = {{ currDeck.name}} <br>
+      <!-- Uploading their own Deck, csv file seperated by comma, clear local storage value and set to 1-->
+      <form method="POST" enctype="multipart/form-data">
         <input type="file" id="myFile" name="file" accept=".csv">
         <input type="submit">
-        </form>
+      </form>
     </div>
   </label>
-  <label> 
+  <label>
     <!-- Current Issue, Local Storage greater than uploaded csv, Fix: Reset to default when uploading a new Flashcard List
          Submit buttons are seperate, cant transfer data... A possible soln would be to join both forms at the same time and check if theres an uploaded file.
     -->
-    <form class="center" method = "POST">
+    <form class="center" method="POST">
       How many Cards?
-      <input  required='required' type="number" id = "numCards" name = "cardCount" min="1" value = 1  max="{{ currDeck.numCards }}">
+      <input required='required' type="number" id="numCards" name="cardCount" min="1" value=1
+        max="{{ currDeck.numCards }}">
       <button type="submit" onclick="save()">Start</button>
     </form>
   </label>
   <script>
     const getValue = localStorage.getItem("numCards");
     console.log(getValue)
-    if(getValue){
+    if (getValue) {
       document.getElementById("numCards").value = getValue;
     }
-    function save(){
+    function save() {
       const setValue = document.getElementById("numCards").value
       localStorage.setItem("numCards", setValue);
     }
   </script>
-  
+
   <div id="flashcards" class="flashcard-container">
     {% for card in cards %}
-    <div class = "flashcard" id = {{card.front}}>   
-    <div class = "flashcard-front" style="margin-bottom:1em;">{{card.front}}</div>
-    <!-- On click make a function to change the button into the Answer or to "flip the card"-->
-    <button onclick="alert('{{card.back}}')">Flip</button>
+    <div class="flashcard" id={{card.front}}>
+    <div class="card-inner">
+      <div class = "card-front">
+        {{card.front}}
+      </div>
+      <div class = "card-back">
+        {{ card.back }}
+      </div>
+
+    </div>
     </div>
     {% endfor %}
-</div>
+  </div>
 </body>
+
 </html>
