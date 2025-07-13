@@ -8,10 +8,13 @@
 
 <body>
   <div class="UI">
-  <h1 class="heading">Flashcard Trainer</h1>
+  <a href="{{url_for('index')}}"><h1 class="heading">Flashcard Trainer</h1></a>
   <div  class="form">
   <label>
-      Current Deck = {{ currDeck.name}} <br>
+      <form action="{{url_for('viewDeck')}}">
+      Current Deck = {{ currDeck.name}} 
+      <button type='submit' id="viewDeck" type="button"> View Deck </button>
+      </form>
       <!-- Uploading their own Deck, csv file seperated by comma, clear local storage value and set to 1-->
       <form method="POST" enctype="multipart/form-data">
         <input type="file" id="myFile" name="file" accept=".csv">

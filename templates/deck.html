@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <title>{{currDeck.name}} Deck</title>
+</head>
+
+<body>
+  <div class="UI">
+  <a href="{{url_for('index')}}"><h1 class="heading">Flashcard Trainer</h1></a>
+  </div>
+<div id="flashcards" class="flashcard-container">
+    {% for card in currDeck.cards %}
+    <div class="flashcard" id={{card.front}}>
+    <div class="card-inner">
+      <div class = "card-front">
+        {{card.front}}
+      </div>
+      <div class = "card-back">
+        {{ card.back }}
+      </div>
+
+    </div>
+    </div>
+    {% endfor %}
+  </div>
+</body>

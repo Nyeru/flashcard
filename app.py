@@ -30,6 +30,10 @@ def index():
             return render_template('index.html', cards = cards, currDeck = deck)
     return render_template("index.html",  currDeck = deck)
 
+@app.route('/CardList/')
+def viewDeck():
+    print(deck.name)
+    return render_template("deck.html", currDeck = deck)
 
 if __name__ == '__main__':
     app.run(debug=True)
