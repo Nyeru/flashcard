@@ -27,7 +27,7 @@ def index():
             numCards = request.form.get("cardCount")
             print(numCards)
             cards = randomCards(deck, int(numCards))
-            return render_template('index.html', cards = cards, currDeck = deck)
+            return render_template('deck.html', cards = cards, currDeck = deck)
     return render_template("index.html",  currDeck = deck)
 
 @app.route('/CardList/')

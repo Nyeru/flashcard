@@ -10,8 +10,29 @@
   <div class="UI">
   <a href="{{url_for('index')}}"><h1 class="heading">Flashcard Trainer</h1></a>
   </div>
-<div id="flashcards" class="flashcard-container">
-    {% for card in currDeck.cards %}
+<div class="form">
+<label >
+    <form  method="POST">
+      How many Cards?
+      <input required='required' type="number" id="numCards" name="cardCount" min="1" value=1
+        max="{{ currDeck.numCards }}">
+      <button type="submit" onclick="save()">Start</button>
+    </form>
+  </label>
+  </div>
+    <script>
+    const getValue = localStorage.getItem("numCards");
+    console.log(getValue)
+    if (getValue) {
+      document.getElementById("numCards").value = getValue;
+    }
+    function save() {
+      const setValue = document.getElementById("numCards").value
+      localStorage.setItem("numCards", setValue);
+    }
+  </script>
+    <div id="flashcards" class="flashcard-container">
+    {% for card in cards %}
     <div class="flashcard" id={{card.front}}>
     <div class="card-inner">
       <div class = "card-front">

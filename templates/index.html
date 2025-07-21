@@ -11,10 +11,7 @@
   <a href="{{url_for('index')}}"><h1 class="heading">Flashcard Trainer</h1></a>
   <div  class="form">
   <label>
-      <form action="{{url_for('viewDeck')}}">
       Current Deck = {{ currDeck.name}} 
-      <button type='submit' id="viewDeck" type="button"> View Deck </button>
-      </form>
       <!-- Uploading their own Deck, csv file seperated by comma, clear local storage value and set to 1-->
       <form method="POST" enctype="multipart/form-data">
         <input type="file" id="myFile" name="file" accept=".csv">
@@ -24,11 +21,9 @@
   </div>
   <div  class="form">
   <label >
-    <!-- Current Issue, Local Storage greater than uploaded csv, Fix: Reset to default when uploading a new Flashcard List
-         Submit buttons are seperate, cant transfer data... A possible soln would be to join both forms at the same time and check if theres an uploaded file.
-    -->
-    <form  method="POST">
+    <form  method="POST" >
       How many Cards?
+      
       <input required='required' type="number" id="numCards" name="cardCount" min="1" value=1
         max="{{ currDeck.numCards }}">
       <button type="submit" onclick="save()">Start</button>
@@ -47,19 +42,14 @@
       localStorage.setItem("numCards", setValue);
     }
   </script>
-
-  <div id="flashcards" class="flashcard-container">
-    {% for card in cards %}
+  
+  <h1 class="heading"> Card List</h1>
+<div id="flashcards" class="flashcard-container">
+  {% for card in currDeck.cards %}
     <div class="flashcard" id={{card.front}}>
-    <div class="card-inner">
       <div class = "card-front">
-        {{card.front}}
+        {{card.front}} | {{ card.back }}
       </div>
-      <div class = "card-back">
-        {{ card.back }}
-      </div>
-
-    </div>
     </div>
     {% endfor %}
   </div>
