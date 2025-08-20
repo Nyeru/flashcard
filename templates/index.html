@@ -9,23 +9,37 @@
 <body>
   <div class="UI">
   <a href="{{url_for('index')}}"><h1 class="heading">Flashcard Trainer</h1></a>
-  <div  class="form">
+  
+  <!-- Flash Messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-messages">
+        {% for category, message in messages %}
+          <div class="flash-message flash-{{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+  
+  <div class="form">
   <label>
-      Current Deck = {{ currDeck.name}} 
-      <!-- Uploading their own Deck, csv file seperated by comma, clear local storage value and set to 1-->
+      Current Deck = {{ curr_deck.name}} ({{ curr_deck.numCards }} cards)
+      <!-- Uploading their own Deck, csv file seperated by comma -->
       <form method="POST" enctype="multipart/form-data">
-        <input type="file" id="myFile" name="file" accept=".csv">
-        <input type="submit">
+        <input type="file" id="myFile" name="file" accept=".csv" required>
+        <input type="submit" value="Upload Deck">
       </form>
   </label>
   </div>
-  <div  class="form">
-  <label >
-    <form  method="POST" >
+  <div class="form">
+  <label>
+    <form method="POST">
       How many Cards?
       
-      <input required='required' type="number" id="numCards" name="cardCount" min="1" value=1
-        max="{{ currDeck.numCards }}">
+      <input required='required' type="number" id="numCards" name="card_count" min="1" value=1
+        max="{{ curr_deck.numCards }}">
       <button type="submit" onclick="save()">Start</button>
     </form>
   </label>
@@ -45,7 +59,7 @@
   
   <h1 class="heading"> Card List</h1>
 <div id="flashcards" class="flashcard-container">
-  {% for card in currDeck.cards %}
+  {% for card in curr_deck.cards %}
     <div class="flashcard" id={{card.front}}>
       <div class = "card-front">
         {{card.front}} | {{ card.back }}

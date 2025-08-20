@@ -3,7 +3,7 @@
 
 <head>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-  <title>{{currDeck.name}} Deck</title>
+  <title>{{curr_deck.name}} Deck</title>
 </head>
 
 <body>
@@ -14,8 +14,8 @@
 <label >
     <form  method="POST">
       How many Cards?
-      <input required='required' type="number" id="numCards" name="cardCount" min="1" value=1
-        max="{{ currDeck.numCards }}">
+      <input required='required' type="number" id="numCards" name="card_count" min="1" value=1
+        max="{{ curr_deck.numCards }}">
       <button type="submit" onclick="save()">Start</button>
     </form>
   </label>

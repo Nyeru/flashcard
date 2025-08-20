@@ -7,7 +7,7 @@ class Card:
         self.front = front
         self.back = back
     
-    def printCard(self):
+    def print_card(self):
         print(self.front + " " + self.back)
     
 
@@ -18,11 +18,11 @@ class Deck:
         self.name = ""
         self.numCards = 0
 
-    def addCard(self, front, back):
+    def add_card(self, front, back):
         self.cards.append(Card(front, back))
         self.numCards += 1
     
-    def clearDeck(self):
+    def clear_deck(self):
         self.cards = []
         self.numCards = 0
         self.name = ""
@@ -31,17 +31,17 @@ class Deck:
         self.name = name
 
     # not used
-    def randSel(self, numCards):
+    def rand_sel(self, numCards):
         selected = []
         ranSample = random.sample(self.cards,numCards)
         for card in ranSample:
             selected.append({'front': card.front, 'back': card.back})
         return selected
 
-    def printFront(self):
+    def print_front(self):
         for card in self.cards:
             print(card.front)
 
-    def viewDeck(self):
+    def view_deck(self):
         for card in self.cards:
-            card.printCard()
+            card.print_card()
