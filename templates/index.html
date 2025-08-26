@@ -44,6 +44,9 @@
     </form>
   </label>
   </div>
+  <a href="{{url_for('viewDeck')}}" class="btn">
+            View All Cards
+          </a>
   </div>
   <script>
     const getValue = localStorage.getItem("numCards");
@@ -56,17 +59,6 @@
       localStorage.setItem("numCards", setValue);
     }
   </script>
-  
-  <h1 class="heading"> Card List</h1>
-<div id="flashcards" class="flashcard-container">
-  {% for card in curr_deck.cards %}
-    <div class="flashcard" id={{card.front}}>
-      <div class = "card-front">
-        {{card.front}} | {{ card.back }}
-      </div>
-    </div>
-    {% endfor %}
-  </div>
 </body>
 
 </html>

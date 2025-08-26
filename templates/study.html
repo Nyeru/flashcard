@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <title>Studying {{deck_name}} - Card {{current_card + 1}} of {{total_cards}}</title>
+</head>
+
+<body>
+  <div class="UI">
+    <a href="{{url_for('index')}}"><h1 class="heading">Flashcard Trainer</h1></a>
+    
+    <!-- Progress indicator -->
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: {{ progress }}%"></div>
+      </div>
+      <p class="progress-text">Card {{current_card + 1}} of {{total_cards}}</p>
+    </div>
+  </div>
+
+  <!-- Single flashcard for studying -->
+  <div class="study-container">
+    <div class="flashcard study-card" id="study-card">
+      <div class="card-inner" id="card-inner">
+        <div class="card-front">
+          <div class="card-content">
+            {{card.front}}
+          </div>
+        </div>
+        <div class="card-back">
+          <div class="card-content">
+            {{ card.back }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Study controls -->
+  <div class="study-controls">
+    <form method="POST" style="display: inline;">
+      <input type="hidden" name="action" value="previous">
+      <button type="submit" class="control-btn" 
+              {% if current_card == 0 %}disabled{% endif %}>
+        ← Previous
+      </button>
+    </form>
+
+    <button class="control-btn flip-btn" onclick="flipCard()">
+        Flip Card
+    </button>
+
+    <form method="POST" style="display: inline;">
+      {% if current_card < total_cards - 1 %}
+        <input type="hidden" name="action" value="next">
+        <button type="submit" class="control-btn">Next →</button>
+      {% else %}
+        <input type="hidden" name="action" value="finish">
+        <button type="submit" class="control-btn finish-btn">Finish Study</button>
+      {% endif %}
+    </form>
+  </div>
+
+  <script>
+    let isFlipped = false;
+    
+    function flipCard() {
+      const cardInner = document.getElementById('card-inner');
+      isFlipped = !isFlipped;
+      
+      if (isFlipped) {
+        cardInner.style.transform = 'rotateY(180deg)';
+      } else {
+        cardInner.style.transform = 'rotateY(0deg)';
+      }
+    }
+
+    // Keyboard shortcuts for better study experience
+    document.addEventListener('keydown', function(event) {
+      if (event.code === 'Space') {
+        event.preventDefault(); // Prevent page scroll
+        flipCard();
+      } else if (event.code === 'ArrowLeft') {
+        // Trigger previous button if it exists and is enabled
+        const prevBtn = document.querySelector('input[value="previous"]');
+        if (prevBtn && !prevBtn.nextElementSibling.disabled) {
+          prevBtn.nextElementSibling.click();
+        }
+      } else if (event.code === 'ArrowRight') {
+        // Trigger next/finish button
+        const nextBtn = document.querySelector('input[value="next"], input[value="finish"]');
+        if (nextBtn) {
+          nextBtn.nextElementSibling.click();
+        }
+      }
+    });
+
+    // Reset card flip state when page loads
+    window.addEventListener('load', function() {
+      const cardInner = document.getElementById('card-inner');
+      cardInner.style.transform = 'rotateY(0deg)';
+      isFlipped = false;
+    });
+  </script>
+</body>
+</html>

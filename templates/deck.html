@@ -8,7 +8,7 @@
 
 <body>
   <div class="UI">
-  <a href="{{url_for('index')}}"><h1 class="heading">Flashcard Trainer</h1></a>
+  <a href="{{url_for('index')}}"><h1 class="heading btn">Flashcard Trainer</h1></a>
   </div>
 <div class="form">
 <label >
@@ -31,18 +31,12 @@
       localStorage.setItem("numCards", setValue);
     }
   </script>
-    <div id="flashcards" class="flashcard-container">
-    {% for card in cards %}
+<div id="flashcards" class="flashcard-container">
+  {% for card in curr_deck.cards %}
     <div class="flashcard" id={{card.front}}>
-    <div class="card-inner">
       <div class = "card-front">
-        {{card.front}}
+        {{card.front}} | {{ card.back }}
       </div>
-      <div class = "card-back">
-        {{ card.back }}
-      </div>
-
-    </div>
     </div>
     {% endfor %}
   </div>

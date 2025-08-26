@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, flash
+from flask import Flask, request, jsonify, render_template, flash, session, redirect, url_for
 from DeckActions import *
 from FlashCard import Deck
 import json
@@ -35,14 +35,65 @@ def index():
 
         if "card_count" in request.form:
             num_cards = request.form.get("card_count")
-            print(num_cards)
             cards = random_cards(deck, int(num_cards))
-            return render_template('deck.html', cards = cards, curr_deck = deck)
+            session['study_cards'] = cards
+            session['current_card'] = 0
+            return redirect(url_for('study',
+                                   total_cards = len(cards),
+                                   current_card = 0,
+                                   card = cards[0],
+                                   deck_name = deck.name))
     return render_template("index.html",  curr_deck = deck)
 
-@app.route('/CardList/')
+@app.route('/study', methods =['GET', 'POST'])
+def study():
+    study_cards = session.get('study_cards', [])
+    curr_index = session.get('current_card', 0)
+    print(f"DEBUG: Study route called")
+    print(f"DEBUG: study_cards length: {len(study_cards)}")
+    print(f"DEBUG: current_index: {curr_index}")
+    print(f"DEBUG: Request method: {request.method}")
+    if not study_cards:
+        flash("No study session active. Please select cards to study.", "Error")
+        return redirect(url_for('index'))
+
+    if request.method == 'POST':
+        action = request.form.get('action')
+
+        if action == 'next' and curr_index < len(study_cards) - 1:
+            session['current_card'] = curr_index + 1
+        elif action == 'previous' and curr_index > 0:
+            session['current_card'] = curr_index - 1
+        elif action == 'finish':
+            session.pop('study_cards', None)
+            session.pop('current_card', None)
+            return render_template('study_complete.html', 
+                                 total_studied=len(study_cards),
+                                 deck_name=deck.name)
+        curr_index = session.get('current_card', 0)
+
+    current_card = study_cards[curr_index]
+    progress_percent = ((curr_index + 1) / len(study_cards)) * 100
+    return render_template('study.html',
+                         card=current_card,
+                         current_card=curr_index,
+                         total_cards=len(study_cards),
+                         progress = progress_percent,
+                         deck_name=deck.name)
+
+@app.route('/CardList/',  methods=['POST', 'GET'])
 def viewDeck():
     print(deck.name)
+    if request.method== "POST":
+        num_cards = request.form.get("card_count")
+        cards = random_cards(deck, int(num_cards))
+        session['study_cards'] = cards
+        session['current_card'] = 0
+        return redirect(url_for('study',
+                                total_cards = len(cards),
+                                current_card = 0,
+                                card = cards[0],
+                                deck_name = deck.name))
     return render_template("deck.html", curr_deck = deck)
 
 if __name__ == '__main__':
