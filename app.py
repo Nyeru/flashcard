@@ -34,27 +34,30 @@ def index():
                     flash(f"Unexpected error: {str(e)}", "error")
 
         if "card_count" in request.form:
-            num_cards = request.form.get("card_count")
-            cards = random_cards(deck, int(num_cards))
-            session['study_cards'] = cards
-            session['current_card'] = 0
-            return redirect(url_for('study',
-                                   total_cards = len(cards),
-                                   current_card = 0,
-                                   card = cards[0],
-                                   deck_name = deck.name))
+            try:
+                num_cards = int(request.form.get("card_count"))
+                
+                if num_cards < 1 :
+                    flash("Please select at least 1 card", "error")
+                    return redirect(url_for('index'))
+                elif num_cards > deck.numCards:
+                    flash(f"Cannot select more than {deck.numCards} cards", "error")
+                    return redirect(url_for('index'))
+                cards = random_cards(deck, int(num_cards))
+                session['study_cards'] = cards
+                session['current_card'] = 0
+                return redirect(url_for('study'))
+            except(ValueError, TypeError):
+                flash("Please enter a valid number", "error")
+                return render_template("index.html", curr_deck = deck)
     return render_template("index.html",  curr_deck = deck)
 
 @app.route('/study', methods =['GET', 'POST'])
 def study():
     study_cards = session.get('study_cards', [])
     curr_index = session.get('current_card', 0)
-    print(f"DEBUG: Study route called")
-    print(f"DEBUG: study_cards length: {len(study_cards)}")
-    print(f"DEBUG: current_index: {curr_index}")
-    print(f"DEBUG: Request method: {request.method}")
     if not study_cards:
-        flash("No study session active. Please select cards to study.", "Error")
+        flash("No study session active. Please select cards to study.", "error")
         return redirect(url_for('index'))
 
     if request.method == 'POST':
@@ -67,9 +70,11 @@ def study():
         elif action == 'finish':
             session.pop('study_cards', None)
             session.pop('current_card', None)
-            return render_template('study_complete.html', 
-                                 total_studied=len(study_cards),
-                                 deck_name=deck.name)
+            session['completion_data'] = {
+                    'total_studied': len(study_cards),
+                    'deck_name': deck.name
+                }
+            return redirect(url_for('study_complete'))
         curr_index = session.get('current_card', 0)
 
     current_card = study_cards[curr_index]
@@ -96,5 +101,11 @@ def viewDeck():
                                 deck_name = deck.name))
     return render_template("deck.html", curr_deck = deck)
 
+@app.route('/study-complete')
+def study_complete():
+    completion_data = session.pop('completion_data', None)
+    if not completion_data:
+        return redirect(url_for('index'))
+    return render_template('study_complete.html', **completion_data)
 if __name__ == '__main__':
     app.run(debug=True)
