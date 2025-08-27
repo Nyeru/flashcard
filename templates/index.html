@@ -7,10 +7,11 @@
 </head>
 
 <body>
+  {% from 'macros.html' import card_count_form, card_count_script %}
   <div class="UI">
   <a href="{{url_for('index')}}"><h1 class="heading">Flashcard Trainer</h1></a>
   
-  <!-- Flash Messages -->
+
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
       <div class="flash-messages">
@@ -33,32 +34,12 @@
       </form>
   </label>
   </div>
-  <div class="form">
-  <label>
-    <form method="POST">
-      How many Cards?
-      
-      <input required='required' type="number" id="numCards" name="card_count" min="1" value=1
-        max="{{ curr_deck.numCards }}">
-      <button type="submit" onclick="save()">Start</button>
-    </form>
-  </label>
-  </div>
+  {{ card_count_form(curr_deck) }}
   <a href="{{url_for('viewDeck')}}" class="btn">
             View All Cards
           </a>
   </div>
-  <script>
-    const getValue = localStorage.getItem("numCards");
-    console.log(getValue)
-    if (getValue) {
-      document.getElementById("numCards").value = getValue;
-    }
-    function save() {
-      const setValue = document.getElementById("numCards").value
-      localStorage.setItem("numCards", setValue);
-    }
-  </script>
+  {{ card_count_script() }}
 </body>
 
 </html>

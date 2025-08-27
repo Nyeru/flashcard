@@ -1,0 +1,28 @@
+{# macros.html - Reusable template components #}
+
+{% macro card_count_form(curr_deck) %}
+<div class="form">
+<label>
+  <form method="POST">
+    How many Cards?
+    <input required='required' type="number" id="numCards" name="card_count" min="1" value=1
+      max="{{ curr_deck.numCards }}">
+    <button type="submit" onclick="save()">Start</button>
+  </form>
+</label>
+</div>
+{% endmacro %}
+
+{% macro card_count_script() %}
+<script>
+  const getValue = localStorage.getItem("numCards");
+  console.log(getValue)
+  if (getValue) {
+    document.getElementById("numCards").value = getValue;
+  }
+  function save() {
+    const setValue = document.getElementById("numCards").value
+    localStorage.setItem("numCards", setValue);
+  }
+</script>
+{% endmacro %}
