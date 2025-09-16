@@ -40,23 +40,23 @@
   <div class="study-controls">
     <form method="POST" style="display: inline;">
       <input type="hidden" name="action" value="previous">
-      <button type="submit" class="control-btn" 
+      <button type="submit" class="btn action-btn" 
               {% if current_card == 0 %}disabled{% endif %}>
         ← Previous
       </button>
     </form>
 
-    <button class="control-btn flip-btn" onclick="flipCard()">
+    <button class="action-btn flip btn" onclick="flipCard()">
         Flip Card
     </button>
 
     <form method="POST" style="display: inline;">
       {% if current_card < total_cards - 1 %}
         <input type="hidden" name="action" value="next">
-        <button type="submit" class="control-btn">Next →</button>
+        <button type="submit" class="btn action-btn">Next →</button>
       {% else %}
         <input type="hidden" name="action" value="finish">
-        <button type="submit" class="control-btn finish-btn">Finish Study</button>
+        <button type="submit" class="btn action-btn finish">Finish Study</button>
       {% endif %}
     </form>
   </div>

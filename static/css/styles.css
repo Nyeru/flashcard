@@ -2,7 +2,18 @@
   outline: 0px solid red;
 }
 
-/* Fixed: Changed to uppercase to match HTML */
+/* Color Variables */
+:root {
+  --primary: #2d5a3d;      /* Deep forest green */
+  --primary-hover: #1e3d2a; /* Darker on hover */
+  --background: #f8f9f6;    /* Warm off-white */
+  --accent: #e8f2ea;        /* Very light green */
+  --text: #1a1a1a;          /* Near black */
+  --border-radius: 10px;
+  --transition: all 0.3s ease;
+}
+
+/* Layout Components */
 .UI{
   display: flex;
   flex-direction: column;
@@ -20,34 +31,125 @@
   text-align: center;
   font-size: 2.5em;
   padding: 10px;
-  background-color: #efffe2;
-  border: 3px solid rgb(0, 128, 107);
+  background-color: var(--accent);
+  border: 3px solid var(--primary);
   border-radius: 15px;
   margin-bottom: 1px;
+  color: var(--text);
 }
 
 .form{
   width: 50%;
   justify-self: center;
-  background-color: #f0fdcd;
+  justify-content: center;
+  background-color: var(--background);
   padding: 1em 1em;
   font-size: 20px;
-  border: 3px solid rgb(0, 128, 107);
-  border-radius: 10px;
+  border: 2px solid var(--primary);
+  border-radius: var(--border-radius);
   margin-top: 10px;
 }
 
-.btn{
-  padding: 15px 25px;
-      font-size: 16px;
-      font-weight: bold;
-      border: 3px solid rgb(0, 128, 107);
-      border-radius: 12px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      display: inline-block;
+/* Base button class - all buttons inherit from this */
+.btn {
+  /* Layout */
+  padding: 12px 24px;
+  display: inline-block;
+  
+  /* Typography */
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  color: var(--text);
+  
+  /* Appearance */
+  background-color: var(--accent);
+  border: 2px solid var(--primary);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  
+  /* Animation */
+  transition: var(--transition);
+  
+  /* Remove default button styles */
+  font-family: inherit;
+  outline: none;
 }
-/* Flash Messages - Fixed width to match other elements */
+
+/* Base button hover state */
+.btn:hover:not(:disabled) {
+  background-color: var(--primary);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(49, 151, 149, 0.3);
+}
+
+/* Base button focus state (accessibility) */
+.btn:focus {
+  outline: 3px solid rgba(49, 151, 149, 0.4);
+  outline-offset: 2px;
+}
+
+/* Disabled state */
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #f5f5f5;
+  color: #999;
+  border-color: #ddd;
+}
+
+.btn:disabled:hover {
+  transform: none;
+  box-shadow: none;
+  background-color: #f5f5f5;
+  color: #999;
+}
+
+/* Action buttons - for study controls */
+.btn.action-btn {
+  padding: 10px 20px;
+  font-size: 15px;
+  min-width: 100px;
+}
+
+/* Primary action button - for most important actions */
+.btn.primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn.primary:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(49, 151, 149, 0.4);
+}
+
+/* Special button variants */
+.btn.finish {
+  background-color: #48bb78;
+  border-color: #38a169;
+  color: white;
+}
+
+.btn.finish:hover:not(:disabled) {
+  background-color: #38a169;
+  box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+}
+
+.btn.flip {
+  background-color: #ed8936;
+  border-color: #dd6b20;
+  color: white;
+}
+
+.btn.flip:hover:not(:disabled) {
+  background-color: #dd6b20;
+  box-shadow: 0 4px 12px rgba(237, 137, 54, 0.3);
+}
+
+/* Flash Messages */
 .flash-messages {
   width: 50%;
   margin: 10px 0;
@@ -80,7 +182,10 @@
 }
 
 body {
-  background-color: rgb(90, 194, 116);
+  background: linear-gradient(135deg, #f0fdfa 0%, #e6fffa 100%);
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text);
 }
 
 /* EXISTING CARD STYLES (for deck view and card list) */
@@ -121,22 +226,25 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #ccc;
-  border-radius: 10px;
+  border: 2px solid var(--primary);
+  border-radius: var(--border-radius);
 }
 
 .card-front{
-  background-color: #fff;
+  background-color: var(--background);
+  color: var(--text);
 }
 
 .card-back{
-  background-color: aliceblue;
+  background-color: var(--accent);
+  color: var(--text);
   transform: rotateY(180deg);
 }
 
 .flashcard:hover .card-inner{
   transform: rotateY(180deg);
 }
+
 /* Progress bar */
 .progress-container {
   width: 50%;
@@ -147,14 +255,14 @@ body {
   width: 100%;
   height: 20px;
   background-color: rgba(255, 255, 255, 0.3);
-  border-radius: 10px;
+  border-radius: var(--border-radius);
   overflow: hidden;
-  border: 2px solid rgb(0, 128, 107);
+  border: 2px solid var(--primary);
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  background: linear-gradient(90deg, var(--primary), var(--primary-hover));
   transition: width 0.3s ease;
 }
 
@@ -162,7 +270,7 @@ body {
   text-align: center;
   margin: 5px 0;
   font-weight: bold;
-  color: #2d5a3d;
+  color: var(--text);
 }
 
 /* Study container - centers the study card */
@@ -207,50 +315,6 @@ body {
   margin-top: 20px;
 }
 
-.control-btn {
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: bold;
-  border: 3px solid rgb(0, 128, 107);
-  border-radius: 10px;
-  background-color: #f0fdcd;
-  color: #2d5a3d;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.control-btn:hover:not(:disabled) {
-  background-color: #e8f5d0;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.control-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  background-color: #f5f5f5;
-  color: #999;
-}
-
-.flip-btn {
-  background-color: #fff3e0;
-  border-color: #ff9800;
-}
-
-.flip-btn:hover {
-  background-color: #ffe0b2;
-}
-
-.finish-btn {
-  background-color: #e8f5e8;
-  border-color: #4caf50;
-  color: #2e7d32;
-}
-
-.finish-btn:hover {
-  background-color: #c8e6c9;
-}
-
 /* Mobile responsiveness for study mode */
 @media (max-width: 768px) {
   .heading {
@@ -258,7 +322,15 @@ body {
     font-size: 2em;
   }
   
+  .form {
+    width: 90%;
+  }
+  
   .progress-container {
+    width: 90%;
+  }
+  
+  .flash-messages {
     width: 90%;
   }
   
@@ -272,8 +344,8 @@ body {
     gap: 10px;
   }
   
-  .control-btn {
-    padding: 10px 20px;
+  .btn.action-btn {
+    padding: 8px 16px;
     font-size: 14px;
   }
   
@@ -282,8 +354,8 @@ body {
     padding: 15px;
   }
   
-  /* Touch interaction for mobile */
-  .study-card .card-inner {
-    cursor: pointer;
+  .flashcard {
+    width: 45%;
+    margin: 0.25em;
   }
 }
